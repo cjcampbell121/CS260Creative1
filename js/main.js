@@ -20,7 +20,10 @@ function updateView(){
   var list = $('#list')
   list.html('')
   items.forEach((x)=> {
-    list.append('<div class="todo-item">'+ x.title + '</div>')
+    var newItem = $("#item-template").clone()
+    newItem.attr('id', x.id)
+    newItem.html(x.title)
+    list.append(newItem)
   })
 }
 
