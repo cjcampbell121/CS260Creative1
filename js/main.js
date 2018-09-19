@@ -6,4 +6,30 @@ class TodoItem {
   }
 }
 
-console.log(new TodoItem("Hello my first item"));
+var items = []
+
+function addNew(){
+  var title = $('#title').val()
+  if (title.length) {
+    items.push(new TodoItem(title))
+    console.log(items)
+    clearField();
+    $('#title').focus()
+  }
+}
+
+function clearField(){
+  $('#title').val('')
+}
+
+
+$( document ).ready(function() {
+  $("#submit").click(function(){
+    addNew()
+  })
+  $('#title').on('keyup', function (e) {
+    if (e.keyCode == 13) {
+      addNew()
+    }
+  })
+});
