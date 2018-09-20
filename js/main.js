@@ -10,9 +10,8 @@ function guid() {
 class TodoItem {
   constructor(title){
     this.title = title;
-    this.created = Date.now()
     this.completed = false;
-    this.id = guid()
+    this.id = guid();
   }
 }
 
@@ -20,21 +19,47 @@ function updateView(){
   var list = $('#list')
   list.html('')
   items.forEach((x)=> {
-    var newItem = $("#item-template").clone()
+    var newItem = $("#item-template").clone().show()
     newItem.attr('id', x.id)
-    newItem.html(x.title)
+    newItem.find('.item-title').html(x.title)
+    check = newItem.find('.checkbox')
+    if (!x.completed) {
+      check.addClass('fa-square')
+    }
+    else {
+      check.addClass('fa-check-square')
+    }
     list.append(newItem)
   })
+}
+
+function trash(el){
+  items.forEach((x, i)=>{
+    if (x.id == $(el).parent().attr('id')){
+      items.splice(i, 1)
+    }
+  })
+  updateView();
+}
+
+function complete(el){
+  items.forEach((x, i)=>{
+    if (x.id == $(el).parent().attr('id')){
+      items[i].completed = !items[i].completed
+      console.log(items[i])
+    }
+  })
+  updateView();
 }
 
 var items = []
 
 function addNew(){
-  var title = $('#title').val()
-  if (title.length) {
-    items.push(new TodoItem(title))
-    $('#title').val('')
-    $('#title').focus()
+  var title = $('#title-input')
+  if (title.val().length) {
+    items.push(new TodoItem(title.val()))
+    title.val('')
+    title.focus()
     updateView()
   }
 }
@@ -43,7 +68,7 @@ $( document ).ready(function() {
   $("#submit").click(function(){
     addNew()
   })
-  $('#title').on('keyup', function (e) {
+  $('#title-input').on('keyup', function (e) {
     if (e.keyCode == 13) {
       addNew()
     }
