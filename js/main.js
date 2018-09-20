@@ -28,6 +28,7 @@ function updateView(){
     }
     else {
       check.addClass('fa-check-square')
+      newItem.addClass('checked')
     }
     list.append(newItem)
   })
